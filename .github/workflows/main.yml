@@ -1,5 +1,5 @@
-name: Generate QR Code
-on: [push]
+name: Generate Menu QR Code
+on: [push] # Runs every time you update your code
 
 jobs:
   build:
@@ -8,15 +8,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Generate QR Code
+      - name: Download QR Code
         run: |
-          # Replace with your actual URL
-          curl -o qrcode.png "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yourusername.github.io/"
+          curl -L -o menu-qr.png "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://stecker-konditorei.github.io/speisekarte/"
 
-      - name: Commit and Push
+      - name: Commit and Push QR code
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add qrcode.png
-          git commit -m "Update QR Code" || exit 0
+          git add menu-qr.png
+          git commit -m "Update QR Code image" || exit 0
           git push
